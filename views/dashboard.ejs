@@ -1,0 +1,39 @@
+<%- include('layouts/main') %>
+<h4>Dashboard</h4>
+<h3>Welcome <%- name %></h3>
+<p>Here are your stories</p>
+
+<% if(stories) { %>
+
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <ul>
+                <% stories.forEach(function(story) { %>
+                    <tr>
+                        <td><a href="/stories/<% story._id %>"><% story.title %></a></td>
+                        <td><% story.createdAt %></td>
+                        <td class="dash-status"> <% story.status %> </td>
+                        <td></td>
+                    </tr>
+                <% }); %>
+              </ul>
+              
+        </tbody>
+    </table>
+
+<% } else { %>
+
+        <p>You have not created any stories</p>
+    
+<% } %>
+
+
+<%- include('layouts/footer.ejs') %>
