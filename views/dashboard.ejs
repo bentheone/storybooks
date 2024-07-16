@@ -3,8 +3,7 @@
 <h3>Welcome <%- name %></h3>
 <p>Here are your stories</p>
 
-<% if(stories) { %>
-
+<% if (stories && stories.length > 0) { %>
     <table class="striped">
         <thead>
             <tr>
@@ -15,25 +14,18 @@
             </tr>
         </thead>
         <tbody>
-            <ul>
-                <% stories.forEach(function(story) { %>
-                    <tr>
-                        <td><a href="/stories/<% story._id %>"><% story.title %></a></td>
-                        <td><% story.createdAt %></td>
-                        <td class="dash-status"> <% story.status %> </td>
-                        <td></td>
-                    </tr>
-                <% }); %>
-              </ul>
-              
+            <% stories.forEach(function(story) { %>
+                <tr>
+                    <td><a href="/stories/<%= story._id %>"><%= story.title %></a></td>
+                    <td><%= formatDate(story.createdAt, 'MMMM DD, YYYY') %></td>
+                    <td class="dash-status"><%= story.status %></td>
+                    <td></td>
+                </tr>
+            <% }); %>
         </tbody>
     </table>
-
 <% } else { %>
-
-        <p>You have not created any stories</p>
-    
+    <p>You have not created any stories</p>
 <% } %>
-
 
 <%- include('layouts/footer.ejs') %>

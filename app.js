@@ -12,6 +12,10 @@ dotenv.config({ path: './config/config.env' });
 
 const app = express();
 
+//Body parser 
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+
 // Connect to MongoDB
 const connectDB = require('./config/db');
 connectDB();
@@ -24,9 +28,21 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
+const { formatDate, scriptTags, truncate, editIcon } = require('./helpers/ejs')
+
 // EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// Set global variables 
+app.use((req, res, next) => {
+    res.locals.formatDate = formatDate;
+    res.locals.scriptTags = scriptTags;
+    res.locals.truncate = truncate;
+    res.locals.editIcon = editIcon;
+    res.locals.user = req.user || null 
+    next();
+})
 
 // Sessions
 app.use(session({

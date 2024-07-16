@@ -1,0 +1,41 @@
+<%- include('../layouts/main') %>
+<h1>Stories</h1>
+<div class="row">
+    <% if (stories && stories.length > 0) { %>
+        <% stories.forEach(function(story) { %>
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-image">
+                        <% if (story.user) { %>
+                            <%= editIcon(story.user, user, story._id) %>
+                        <% } else { %>
+                            <%= console.log('Story without user:', story) %>
+                        <% } %>
+                    </div>
+                    <div class="card-content center-align">
+                        <h5><%= story.title %></h5>
+                        <p><%= truncate(scriptTags(story.body), 150) %></p>
+                        <br>
+                        <% if (story.user) { %>
+                            <div class="chip">
+                                <img src="<%= story.user.image %>" alt="">
+                                <a href="/stories/user/<%= story.user.user_id %>"><%= story.user.displayName %></a>
+                            </div>
+                        <% } else { %>
+                            <div class="chip">
+                                <img src="default-image.jpg" alt="">
+                                <a href="#">Unknown User</a>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="card-action center-align">
+                        <a href="/stories/<%= story._id %>" class="btn orange">READ MORE</a>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <p>No stories to display</p>
+    <% } %>
+</div>
+<%- include('../layouts/footer.ejs') %>
