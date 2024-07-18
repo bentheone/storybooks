@@ -19,16 +19,29 @@ module.exports = {
         // Remove all HTML tags and their attributes
         return input.replace(/<[^>]*>/g, '');
     },
-    editIcon: function(storyUser, loggedUser, storyId = true) {
-        if(storyUser._id.toString() == loggedUser._id.toString()) {
-            if(floating) {
-                return `<a href="/stories/edit/${storyId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`
-            } else {
-                return `<a href="/stories/edit/${storyId}"><i class= "fas fa-edit"></i></a>`
+    editIcon: function(storyUser, loggedUser, storyId, floating = false) {
+        if (storyUser && loggedUser && storyUser._id && loggedUser._id) {
+            if (storyUser._id.toString() === loggedUser._id.toString()) {
+                if (floating) {
+                    return `<a href="/stories/edit/${storyId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`;
+                } else {
+                    return `<a href="/stories/edit/${storyId}"><i class="fas fa-edit fa-small"></i></a>`;
+                }
             }
-        }else {
-            return ''
         }
-    }  
+        return '';
+    },
+    select:  function(selected, options) {
+        return options
+        .fn(this)
+        .replace(
+            new ReqExp(' value="' + selected + '"'),
+            'S& selected= "selected"'
+        ).replace(
+            new RegExp('>' + selected + '</option>'),
+            'selected="selected"S&'
+        )
+    }
+     
     
 }

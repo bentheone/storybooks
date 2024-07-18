@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
+const methodOverride = require('method-override')
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
 
@@ -15,6 +16,17 @@ const app = express();
 //Body parser 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+
+// Method override
+app.use(methodOverride('_method'));
+app.use(methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body ) {
+        // look in urlencoded POST bodies and delete it
+        let method = req.body._method
+        delete req.body._method
+        return method
+    }
+}))
 
 // Connect to MongoDB
 const connectDB = require('./config/db');
@@ -28,7 +40,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
-const { formatDate, scriptTags, truncate, editIcon } = require('./helpers/ejs')
+const { formatDate, scriptTags, truncate, editIcon, select } = require('./helpers/ejs')
 
 // EJS
 app.set('view engine', 'ejs');
@@ -40,6 +52,7 @@ app.use((req, res, next) => {
     res.locals.scriptTags = scriptTags;
     res.locals.truncate = truncate;
     res.locals.editIcon = editIcon;
+    res.locals.select = select;
     res.locals.user = req.user || null 
     next();
 })

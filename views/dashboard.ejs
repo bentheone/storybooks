@@ -19,7 +19,18 @@
                     <td><a href="/stories/<%= story._id %>"><%= story.title %></a></td>
                     <td><%= formatDate(story.createdAt, 'MMMM DD, YYYY') %></td>
                     <td class="dash-status"><%= story.status %></td>
-                    <td></td>
+                    <td>
+                        <a href="/stories/edit/<%= story._id%>" class="btn btn-float">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="/stories/<%= story._id %>" method="POST" id="delete-form-<%= story._id %>">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn red">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                        
+                    </td>
                 </tr>
             <% }); %>
         </tbody>

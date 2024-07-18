@@ -1,0 +1,39 @@
+<%- include('../layouts/main') %>
+<h3>Edit Story</h3>
+<div class="row">
+    <form action="/stories/<%= story._id %>?_method=PUT" class="col s12" method="POST">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" name="title" id="title" value="<%= story.title %>" class="validate">
+                <label for="title">Title</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field">
+                <select name="status" id="status">
+                    <option value="public" <%= story.status === 'public' ? 'selected' : '' %>>Public</option>
+                    <option value="private" <%= story.status === 'private' ? 'selected' : '' %>>Private</option>
+                    <option value="unpublished" <%= story.status === 'unpublished' ? 'selected' : '' %>>Unpublished</option>
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field">
+                <h5>Tell us a story</h5>
+                <textarea name="body" id="body"><%= story.body %></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/dashboard" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('body', {
+        plugins: 'wysiwygarea, toolbar, basicstyles, link'
+    });
+</script>
+<%- include('../layouts/footer.ejs') %>

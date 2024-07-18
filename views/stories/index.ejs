@@ -6,10 +6,12 @@
             <div class="col s12 m4">
                 <div class="card">
                     <div class="card-image">
-                        <% if (story.user) { %>
+                        <% if (story.user && story._id) { %>
                             <%= editIcon(story.user, user, story._id) %>
-                        <% } else { %>
+                        <% } else if (!story.user) { %>
                             <%= console.log('Story without user:', story) %>
+                        <% } else if (!story._id) { %>
+                            <%= console.log('Story without ID:', story) %>
                         <% } %>
                     </div>
                     <div class="card-content center-align">
